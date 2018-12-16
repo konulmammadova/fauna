@@ -22,8 +22,9 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
-    url(r'^labmin/', admin.site.urls),
+    url(r'^admin/', admin.site.urls),
     url(r'^', include("fauna_app.urls")),
+    url('ckeditor/', include('ckeditor_uploader.urls')),
 ]
 
 # urlpatterns += i18n_patterns(

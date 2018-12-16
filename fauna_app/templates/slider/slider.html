@@ -1,0 +1,120 @@
+<section class="rev_slider_wrapper">
+    <div id="slider1" class="rev_slider" data-version="5.0">
+        <ul>
+            {% for slider in sliders %}
+                <li data-transition="slideright">
+                    <img class="rev-slidebg" data-bgparallax="3" data-bgposition="center center"
+                         data-duration="20000"
+                         data-ease="Linear.easeNone" data-kenburns="on" data-no-retina="" data-offsetend="0 0"
+                         data-offsetstart="0 0" data-rotateend="0" data-rotatestart="0" data-scaleend="100"
+                         data-scalestart="140" src="{{ slider.image.url }}" alt="image">
+                    <div class="tp-caption tp-resizeme text"
+                            {% if forloop.counter == 1 %}
+                         data-x="center" data-hoffset="0"
+                            {% else %}
+                         data-x="left" data-hoffset="150"
+                            {% endif %}
+                         data-y="top" data-voffset="300"
+                         data-transform_idle="o:1;"
+                         data-transform_in="x:[-175%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;"
+                         data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"
+                         data-mask_in="x:[100%];y:0;s:inherit;e:inherit;"
+                         data-splitin="none"
+                         data-splitout="none"
+                         data-start="500">
+                        {% if forloop.counter == 1 %}
+                            <h2>{{ slider.title|safe }}</h2>
+                        {% else %}
+                            <h1>{{ slider.title|safe }}</h1>
+                        {% endif %}
+                    </div>
+                    <div class="tp-caption tp-resizeme sologan"
+                            {% if forloop.counter == 1 %}
+                         data-x="center" data-hoffset="0"
+                            {% else %}
+                         data-x="left" data-hoffset="150"
+                            {% endif %}
+                         data-y="top" data-voffset="380"
+                         data-transform_idle="o:1;"
+                         data-transform_in="x:[200%];y:0px;z:0;rX:0;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0.01;s:3000;e:Power3.easeOut;"
+                         data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"
+                         data-mask_in="x:[-100%];y:0;s:inherit;e:inherit;"
+                         data-splitin="none"
+                         data-splitout="none"
+                         data-responsive_offset="on"
+                         data-start="1500">
+                        <h4>{{ slider.text|safe }}</h4>
+                    </div>
+                    {% if forloop.counter == 1 %}
+                        <div class="tp-caption tp-resizeme text"
+                             data-x="['center','center','center','center','center']"
+                             data-hoffset="['-160','-160','-160','-160','-160']"
+                             data-y="top" data-voffset="460"
+                             data-transform_idle="o:1;"
+                             data-transform_hover="o:1;rX:0;rY:0;rZ:0;z:0;s:300;e:Power1.easeInOut;"
+                             data-style_hover="c:rgba(0, 154, 238, 1.00);bc:rgba(0, 154, 238, 1.00);cursor:pointer;"
+                             data-transform_in="x:[-100%];z:0;rX:0deg;rY:0deg;rZ:0deg;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2500;e:Power3.easeInOut;"
+                             data-transform_out="auto:auto;s:1000;e:Power2.easeInOut;"
+                             data-start="3500"
+                             data-splitin="none"
+                             data-splitout="none"
+                             data-actions='[{"event":"click","action":"scrollbelow","offset":"0px"}]'
+                             data-responsive_offset="on">
+                            {% if slider.btn_green %}
+                                <a href="#" class="btn btn-two transition3s">{{ slider.btn_green }}</a>
+                            {% endif %}
+                        </div>
+                        <div class="tp-caption tp-resizeme text"
+                             data-x="['center','center','center','center','center']"
+                             data-hoffset="['160','160','160','160','160']"
+                             data-y="top" data-voffset="460"
+                             data-transform_idle="o:1;"
+                             data-transform_hover="o:1;rX:0;rY:0;rZ:0;z:0;s:300;e:Power1.easeInOut;"
+                             data-style_hover="c:rgba(255, 255, 255, 1.00);bg:rgba(114, 168, 0, 1.00);cursor:pointer;"
+                             data-transform_in="x:[100%];z:0;rX:0deg;rY:0deg;rZ:0deg;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2500;e:Power3.easeInOut;"
+                             data-transform_out="auto:auto;s:1000;e:Power2.easeInOut;"
+                             data-start="3500"
+                             data-splitin="none"
+                             data-splitout="none"
+                             data-actions='[{"event":"click","action":"jumptoslide","slide":"next","delay":""}]'
+                             data-responsive_offset="on">
+                            {% if slider.btn_gray %}
+                                <a href="#" class="btn btn-five transition3s">{{ slider.btn_gray }}</a>
+                            {% endif %}
+                        </div>
+
+                    {% else %}
+                        <div class="tp-caption tp-resizeme text"
+                             data-x="left" data-hoffset="150"
+                             data-y="top" data-voffset="460"
+                             data-transform_idle="o:1;"
+                             data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power4.easeInOut;"
+                             data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"
+                             data-splitin="none"
+                             data-splitout="none"
+                             data-responsive_offset="on"
+                             data-start="3000">
+                            {% if slider.btn_green %}
+                                <button class="btn btn-two">{{ slider.btn_green }}</button>
+                            {% endif %}
+                        </div>
+                        <div class="tp-caption tp-resizeme text"
+                             data-x="left" data-hoffset="540"
+                             data-y="top" data-voffset="460"
+                             data-transform_idle="o:1;"
+                             data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power4.easeInOut;"
+                             data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"
+                             data-splitin="none"
+                             data-splitout="none"
+                             data-responsive_offset="on"
+                             data-start="3000">
+                            {% if slider.btn_gray %}
+                                <button class="btn btn-three">{{ slider.btn_gray }}</button>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>

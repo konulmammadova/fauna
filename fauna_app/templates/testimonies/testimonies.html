@@ -1,0 +1,29 @@
+{% if testimonies.count != 0 %}
+    <section class="testimonial_area" style="background-image:url(../../../static/fauna/images/blog/bg3.jpg);">
+        <div class="container">
+            <div class="section-title text-center">
+                <h2>WHAT OUR CLIENTS SAY</h2>
+                <h6><span class="flaticon-pawprint"></span></h6>
+                <div class="border"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="testimonial-item">
+                        <!--Start single item-->
+                        {% for testimony in testimonies %}
+                            <div class="single-item text-center">
+                                <img src="{{ testimony.image.url }}" alt="Images">
+                                <div class="testimonial_box">
+                                    <p>{{ testimony.statement|safe }}</p>
+                                    <h4>{{ testimony.name }}</h4>
+                                    <h6>{{ testimony.title }}</h6>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <!--End single item-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endif %}
