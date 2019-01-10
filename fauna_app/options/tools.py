@@ -1,6 +1,29 @@
 from time import time
 from unidecode import unidecode
 
+# from fauna_app.models import Service
+
+# PET_CATEGORIES = ((service.title, service.title) for service in Service.objects.all())
+SERVICE_TYPES = (
+    ('a', 'A'),
+    ('b', 'B'),
+    ('a', 'A'),
+    ('b', 'B'),
+)
+
+PET_CATEGORIES = (
+    ('category1', 'Category1'),
+    ('category2', 'Category2'),
+    ('category3', 'Category3'),
+    ('category4', 'Category4'),
+    ('category5', 'Category5'),
+)
+
+GENDER_CHOICES = {
+    (True, 'Male'),
+    (False, 'Female'),
+}
+
 
 # Custom slugify function
 def slugify(title):
@@ -22,7 +45,6 @@ def get_service_image(instance, filename):
 
 def get_testimony_image(instance, filename):
     return "testimonies/%s_%s" % (str(time()).replace('.', '_'), filename.replace(' ', '_'))
-
 
 # def get_doctor_image(instance, filename):
 #     return "doctor/%s_%s" % (str(time()).replace('.', '_'), filename.replace(' ', '_'))

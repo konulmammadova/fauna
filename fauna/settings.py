@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 from django.utils.translation import ugettext_lazy as _
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -66,9 +67,11 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'widget_tweaks',
+    'mptt',
     'base_user.apps.BaseUserConfig',
     # 'api.apps.ApiConfig',
     'fauna_app.apps.FaunaAppConfig',
+
 ]
 
 # Ckeditor config
@@ -139,7 +142,6 @@ CKEDITOR_CONFIGS = {
     }
 }
 
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'fauna.middleware.force_default_middleware.force_default_language_middleware',
@@ -150,7 +152,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'social_django.middleware.SocialAuthExceptionMiddleware', # if you want to social login uncomment this
+    'social_django.middleware.SocialAuthExceptionMiddleware',  # if you want to social login uncomment this
     # 'app.middleware.game_session_middleware.game_check_session', # custom middleware
 ]
 
@@ -200,7 +202,7 @@ SOCIAL_AUTH_PIPELINE = (
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/dashboard/'
 SOCIAL_AUTH_FACEBOOK_KEY = '******************'  # App ID
-SOCIAL_AUTH_FACEBOOK_SECRET = '****************************' # App Secret
+SOCIAL_AUTH_FACEBOOK_SECRET = '****************************'  # App Secret
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'fields': 'id,name,email',
@@ -212,7 +214,6 @@ LOGIN_REDIRECT_URL = '/dashboard/'
 LOGIN_ERROR_URL = '/'
 
 SITE_ID = 1
-
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases

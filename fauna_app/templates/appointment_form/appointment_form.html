@@ -1,0 +1,138 @@
+<!--contact-area-->
+<!--custom-appointment-area-->
+{% load static %}
+{% load widget_tweaks %}
+<section class="contact-fluid" style="background-image:url({% static 'fauna/images/blog/bg1.jpg' %});">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <!--Left Column-->
+            <div class="col-md-6 col-sm-6 col-xs-12 ">
+                <!-- .contact-form-wrap -->
+                <div class="default-form con-fluid">
+                    <h2>{{ site.appointment_title }}</h2>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {{ message }}
+                        {% endfor %}
+                    {% endif %}
+                    <form method="post" id="contact-form">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            {# open 'row clearfix' div #}
+                            {% if forloop.counter == 1 %}
+                                <div class="row clearfix">
+                            {% endif %}
+
+                        {# open first 'col-md-6 col-sm-6 col-xs-12' div #}
+                        {% if forloop.counter == 1 %}
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                        {% endif %}
+
+                        {% if field.name == 'full_name' %}
+                            <div class="form-group">
+                                {{ field|attr:'placeholder: Ad Soyad'|attr:'required' }}
+                                {% if field.errors %}
+                                    {% for err in field.errors %}
+                                        {{ err }}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        {% endif %}
+
+                        {% if field.name == 'phone' %}
+                            <div class="form-group">
+                                {{ field|attr:'placeholder: Telefon' }}
+                                {% if field.errors %}
+                                    {% for err in field.errors %}
+                                        {{ err }}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        {% endif %}
+
+                        {% if field.name == 'service_type' %}
+                            <div class="single-form">
+                                <div class="select-input-wrapper">
+                                    {{ field|add_class:'select-input' }}
+                                    {% if field.errors %}
+                                        {% for err in field.errors %}
+                                            {{ err }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {# close first 'col-md-6 col-sm-6 col-xs-12' div and open second one #}
+                        {% if forloop.counter == 3 %}
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 ">
+                        {% endif %}
+
+                        {% if field.name == 'email' %}
+                            <div class="form-group">
+                                {{ field|attr:'placeholder: Elektron poçt' }}
+                                {% if field.errors %}
+                                    {% for err in field.errors %}
+                                        {{ err }}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        {% endif %}
+
+                        {% if field.name == 'pet_category' %}
+                            <div class="single-form">
+                                <div class="select-input-wrapper">
+                                    {{ field|add_class:'select-input' }}
+                                    {% if field.errors %}
+                                        {% for err in field.errors %}
+                                            {{ err }}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if field.name == 'visiting_date' %}
+                            <div class="form-group">
+                                {{ field|attr:'placeholder: Görüş Tarixi'|add_class:'datepicker' }}
+                                {% if field.errors %}
+                                    {% for err in field.errors %}
+                                        {{ err }}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        {% endif %}
+
+                        {% if forloop.counter == 6 %}
+                            </div> {# close second 'col-md-6 col-sm-6 col-xs-12' div #}
+                            </div>  {# close 'row clearfix' div #}
+                        {% endif %}
+
+                        {% if field.name == 'message' %}
+                            <div class="form-group comments">
+                                {{ field|attr:'placeholder: Əlavə mesajınız' }}
+                                {% if field.errors %}
+                                    {% for err in field.errors %}
+                                        {{ err }}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+
+                        <button type="submit" class="btn btn-one">MÜRACİƏT ET</button>
+                    </form>
+                </div>
+                <!-- /.contact-form-wrap -->
+            </div>
+
+            <div class="col-md-6 col-sm-6 col-xs-12 ">
+                <figure class="img-box-2"><img src="{{ site.appointment_image.url }}" alt="Images"></figure>
+            </div>
+        </div>
+
+    </div>
+</section>
+<!--End custom-appointment-area-->
+<!--End contact-area-->

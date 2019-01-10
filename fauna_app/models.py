@@ -2,8 +2,12 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from django.db import models
 from django.urls import reverse
 from django.utils.safestring import mark_safe
+from mptt.fields import TreeForeignKey
+from mptt.models import MPTTModel
 
-from fauna_app.options.tools import get_slider_image, get_service_bg_image, get_service_image, get_testimony_image
+from base_user.models import MyUser
+from fauna_app.options.tools import get_slider_image, get_service_bg_image, get_service_image, get_testimony_image, \
+     GENDER_CHOICES
 
 
 class GlobalModel(models.Model):
@@ -16,8 +20,9 @@ class GlobalModel(models.Model):
     youtube_account = models.URLField(null=True, blank=True)
     address = models.CharField(max_length=200, null=True, blank=True)
     copyright_info = models.CharField(max_length=100, null=True, blank=True)
+    appointment_title = models.CharField(max_length=50, null=True, blank=True)
+    appointment_image = models.ImageField(upload_to='appointment/', null=True, blank=True)
 
-    # log
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -39,7 +44,6 @@ class Menu(models.Model):
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
     order = models.IntegerField(default=0)
 
-    # log
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -62,7 +66,6 @@ class Slider(models.Model):
     btn_green = models.CharField(max_length=50, null=True, blank=True)
     btn_gray = models.CharField(max_length=50, null=True, blank=True)
 
-    # log
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -83,9 +86,13 @@ class Service(models.Model):
     content = RichTextUploadingField(null=True, blank=True)
     slug = models.SlugField(unique=True, null=True, blank=True)
 
-    # log
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Servis"
+        verbose_name_plural = "Servislər"
+        ordering = ('id',)
 
     def get_bg_image(self):
         if self.bg_image:
@@ -112,7 +119,6 @@ class Testimony(models.Model):
     name = models.CharField(max_length=100, null=True, blank=True)
     title = models.CharField(max_length=100, null=True, blank=True)
 
-    # log
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -122,3 +128,94 @@ class Testimony(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Category(MPTTModel):
+    name = models.CharField(max_length=250, unique=True)
+    parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class MPTTMeta:
+        order_insertion_by = ['name']
+
+    def __str__(self):
+        return '{}'.format(self.name)
+
+
+class Product(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE, null=True, blank=True)
+    name = models.CharField(max_length=25, null=True, blank=True)
+    origin = models.CharField(max_length=350, null=True, blank=True)
+    gender = models.BooleanField(choices=GENDER_CHOICES, default=False)
+    age = models.FloatField(null=True, blank=True)
+    price = models.FloatField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    slug = models.SlugField(unique=True, null=True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        # verbose_name = "Post"
+        # verbose_name_plural = "Postlar"
+        ordering = ("-created_at",)
+
+    def __str__(self):
+        return '{}'.format(self.name)
+
+    def __init__(self, *args, **kwargs):
+        super(Product, self).__init__(*args, **kwargs)
+        self.name_cache = self.name
+
+    def get_absolute_url(self):
+        return reverse('product-detail', kwargs={'slug': self.slug})
+
+    def get_main_image(self):
+        return self.image_set.first()
+
+
+class Image(models.Model):
+    title = models.ImageField()
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class Appointment(models.Model):
+    full_name = models.CharField(max_length=50, null=True, blank=True, verbose_name='Ad, Soyad')
+    email = models.EmailField(null=True, blank=True, verbose_name='Elektron poçt')
+    phone = models.CharField(max_length=25, null=True, blank=True, verbose_name='Telefon')
+    service_type = models.ForeignKey(Service, null=True, blank=True)
+    pet_category = models.ForeignKey(Category,
+                                     limit_choices_to={'parent': None},
+                                     null=True, blank=True)
+    visiting_date = models.DateField(null=True, blank=True)
+    message = models.TextField(null=True, blank=True, verbose_name='Əlavə Mesajınız')
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class Post(models.Model):
+    title = models.CharField(max_length=80, null=True, blank=True)
+    product = models.OneToOneField(Product, null=True, blank=True)
+    slug = models.SlugField(unique=True, null=True, blank=True)
+
+    def __init__(self, *args, **kwargs):
+        super(Post, self).__init__(*args, **kwargs)
+        self.title_cache = self.title
+
+    def get_absolute_url(self):
+        return reverse('blog-detail', kwargs={'slug': self.slug})
+    # class Meta:
+    #     verbose_name = "Post"
+    #     verbose_name_plural = "Postlar"
+    #     ordering = ('-created_at',)
+
+
+
+

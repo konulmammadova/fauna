@@ -1,19 +1,21 @@
 {% extends 'base/base.html' %}
 {% block content %}
+
     <!--.slider_area-->
-    <section class="slider_area" style="background-image:url(../../static/fauna/images/slider/4.jpg);">
+    <section class="slider_area" style="background-image:url('../../static/fauna/images/slider/4.jpg');">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="slider">
                         <h2>{{ service.title }}</h2>
-                        <p><a href="index-2.html">Home</a> <span>/</span> Services Single</p>
+                        <p><a href="/">Home</a> <span>/</span>{{ service.title }}</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
     <!--/slider_area-->
+
     <!--.service_area-->
     <section class="service_area">
         <div class="container">
@@ -130,4 +132,5 @@
         </div>
     </section>
     <!--/service_area-->
+
 {% endblock %}

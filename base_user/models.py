@@ -27,7 +27,9 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
                                 ])
     first_name = models.CharField(_('first name'), max_length=255, blank=True)
     last_name = models.CharField(_('last name'), max_length=255, blank=True)
-    email = models.EmailField(_('email address'), max_length=255)
+    phone = models.CharField(_('phone'), max_length=25, null=True, blank=True)
+    email = models.EmailField(_('email'), max_length=255, null=True, blank=True)
+    address = models.CharField(_('address'), max_length=350, null=True, blank=True)
     profile_picture = models.ImageField(upload_to=get_user_profile_photo_file_name, null=True, blank=True)
     gender = models.IntegerField(choices=GENDER, verbose_name="cinsi", null=True, blank=True)
 

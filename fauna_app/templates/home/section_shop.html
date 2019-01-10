@@ -1,0 +1,93 @@
+<!--shop-section-->
+<section class="shop-section">
+    <div class="container">
+        <div class="row">
+            {% for product in products %}
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <!-- Start single-item -->
+                <div class="shop-item">
+                    <h4><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></h4>
+                    <div class="item_shop">
+{#                        {% with product.image_set.all|first as image %}#}
+{#                            <img src="{{ image.title.url }}" alt="">#}
+{#                        {% endwith %}#}
+                          <img src="{{ product.get_main_image.title.url }}" alt="">
+                        <!-- Start overlay -->
+                        <div class="overlay">
+                            <div class="box">
+                                <div class="image-view">
+                                    <a href="../shop-cart.html"><i class="flaticon-shopping-cart"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End overlay -->
+                    </div>
+                    <p>{{ product.price }} ₼</p>
+                </div>
+                <!-- End single-item -->
+            </div>
+            {% endfor %}
+{#            <div class="col-md-3 col-sm-6 col-xs-12">#}
+{#                <!-- Start single-item -->#}
+{#                <div class="shop-item">#}
+{#                    <h4><a href="../shop-detail.html">CDOGS NECK BELT</a></h4>#}
+{#                    <div class="item_shop">#}
+{#                        <img src="../../../static/fauna/images/shop/2.jpg" alt="">#}
+{#                        <!-- Start overlay -->#}
+{#                        <div class="overlay">#}
+{#                            <div class="box">#}
+{#                                <div class="image-view">#}
+{#                                    <a href="../shop-cart.html"><i class="flaticon-shopping-cart"></i></a>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <!-- End overlay -->#}
+{#                    </div>#}
+{#                    <p>$25.00</p>#}
+{#                </div>#}
+{#                <!-- End single-item -->#}
+{#            </div>#}
+{#            <div class="col-md-3 col-sm-6 col-xs-12">#}
+{#                <!-- Start single-item -->#}
+{#                <div class="shop-item">#}
+{#                    <h4><a href="../shop-detail.html">Dog Cushion Bed</a></h4>#}
+{#                    <div class="item_shop">#}
+{#                        <img src="../../../static/fauna/images/shop/3.jpg" alt="">#}
+{#                        <!-- Start overlay -->#}
+{#                        <div class="overlay">#}
+{#                            <div class="box">#}
+{#                                <div class="image-view">#}
+{#                                    <a href="../shop-cart.html"><i class="flaticon-shopping-cart"></i></a>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <!-- End overlay -->#}
+{#                    </div>#}
+{#                    <p>$60.00</p>#}
+{#                </div>#}
+{#                <!-- End single-item -->#}
+{#            </div>#}
+{#            <div class="col-md-3 col-sm-6 col-xs-12">#}
+{#                <!-- Start single-item -->#}
+{#                <div class="shop-item">#}
+{#                    <h4><a href="../shop-detail.html">Paw Printed Bag</a></h4>#}
+{#                    <div class="item_shop">#}
+{#                        <img src="../../../static/fauna/images/shop/4.jpg" alt="">#}
+{#                        <!-- Start overlay -->#}
+{#                        <div class="overlay">#}
+{#                            <div class="box">#}
+{#                                <div class="image-view">#}
+{#                                    <a href="../shop-cart.html"><i class="flaticon-shopping-cart"></i></a>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <!-- End overlay -->#}
+{#                    </div>#}
+{#                    <p>$80.00</p>#}
+{#                </div>#}
+{#                <!-- End single-item -->#}
+{#            </div>#}
+        </div>
+    </div>
+</section>
+<!--End shop-section-->

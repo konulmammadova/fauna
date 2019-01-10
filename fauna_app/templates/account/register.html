@@ -1,0 +1,64 @@
+{% extends 'base/base.html' %}
+{% block content %}
+{% load static %}
+{% load widget_tweaks %}
+<!--contact-area-->
+<section class="contact-area" style="background-image:url({% static 'fauna/images/blog/bg1.jpg' %});">
+    <div class="container">
+        <div class="row clearfix">
+            <!--Left Column-->
+            <div class="col-md-9 col-sm-9 col-xs-12 ">
+                <!-- .contact-form-wrap -->
+                <div class="default-form">
+                    <h2>QEYDİYYATDAN KEÇ</h2>
+                    <form id="contact-form" method="post">
+                        {% csrf_token %}
+                        <div class="row clearfix">
+                            <div class="col-md-4 col-sm-4 col-xs-12 ">
+                                <div class="form-group">
+                                     {{ form.first_name|attr:'placeholder: First name' }}
+                                     {% if form.first_name.errors %}
+                                        {% for an_error in form.first_name.errors %}
+                                        {{ an_error }}
+                                        {% endfor %}
+                                     {% endif %}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.last_name|attr:'placeholder: Last name' }}
+                                     {% if form.first_name.errors %}
+                                        {% for an_error in form.last_name.errors %}
+                                        {{ an_error }}
+                                        {% endfor %}
+                                     {% endif %}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.username|attr:'placeholder: User name' }}
+                                     {% if form.username.errors %}
+                                        {% for an_error in form.username.errors %}
+                                        {{ an_error }}
+                                        {% endfor %}
+                                     {% endif %}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.password|attr:'placeholder: Password'|attr:'type: password' }}
+                                     {% if form.password.errors %}
+                                        {% for an_error in form.password.errors %}
+                                        {{ an_error }}
+                                        {% endfor %}
+                                     {% endif %}
+                                </div>
+                                <div class="form-group">
+                                   <button type="submit" class="btn btn-one">Qeydiyyat ol</button>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.contact-form-wrap -->
+            </div>
+        </div>
+    </div>
+</section>
+<!--End contact-area-->
+{% endblock %}

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Menu, GlobalModel, Slider, Service, Testimony
+from .models import Menu, GlobalModel, Slider, Service, Testimony, Appointment, Category, Product, Image, Post
 from django.contrib.admin import SimpleListFilter
 
 
@@ -39,7 +39,7 @@ class SliderAdmin(admin.ModelAdmin):
 
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
-    list_display = ('title','get_bg_image', 'get_image', 'sub_title', 'content', 'slug')
+    list_display = ('title','get_bg_image', 'get_image', 'sub_title', 'slug')
     list_display_links = ('title',)
 
 
@@ -47,3 +47,27 @@ class ServiceAdmin(admin.ModelAdmin):
 class TestimonyAdmin(admin.ModelAdmin):
     list_display = ('get_image', 'name', 'title', 'statement')
 
+
+@admin.register(Appointment)
+class AppointmentAdmin(admin.ModelAdmin):
+    list_display = ('full_name', 'email', 'phone')
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'parent')
+
+
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ('category', 'name', 'origin', 'gender', 'age', 'price', 'slug', 'created_at')
+
+
+@admin.register(Image)
+class ProductImageAdmin(admin.ModelAdmin):
+    list_display = ('title', 'product')
+
+
+@admin.register(Post)
+class PostAdmin(admin.ModelAdmin):
+    list_display = ('title', 'product', 'slug')

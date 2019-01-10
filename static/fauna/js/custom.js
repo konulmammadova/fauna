@@ -427,3 +427,21 @@ jQuery(window).load(function () {
 
 
 })(window.jQuery);
+
+
+    /* ==========================================================================
+       Toast
+       ========================================================================== */
+
+function show_snackbar(text) {
+   // Get the snackbar DIV
+   var x = document.getElementById("snackbar");
+   // set snackbar text
+   x.innerHTML = text;
+   // Add the "show" class to DIV
+   x.className = "show";
+   // After 5 seconds, remove the show class from DIV
+   setTimeout(function () {
+       x.className = x.className.replace("show", "");
+   }, 5000);
+}
