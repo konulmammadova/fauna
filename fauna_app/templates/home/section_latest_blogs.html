@@ -13,17 +13,17 @@
             {% for blog in blogs %}
             <div class="col-md-4 col-sm-4 col-xs-12">
                 <div class="wellcome hvr-shadow">
-                    <figure><a href="{{ blog.get_absolute_url }}"><img src="{{ blog.product.get_main_image.title.url }}" alt="Images" width="370" height="277"></a>
+                    <figure><a href="{{ blog.get_absolute_url }}"><img src="{{ blog.get_main_image.title.url }}" alt="Images" width="370" height="277"></a>
                     </figure>
                     <div class="wellcome-text wellcome-2">
                         <h4><a href="../blog-detail.html">{{ blog.title }}</a></h4>
                         <div class="deat-text clearfix">
-                            <div class="deat deat-2"><p>{{ blog.product.created_at|date:'d' }}<br><span>{{ blog.product.created_at|date:'M'|upper }}</span></p></div>
-{#                            <p><i class="fa fa-heart-o" aria-hidden="true"></i>32 Bəyənmə</p>#}
+                            <div class="deat deat-2"><p>{{ blog.created_at|date:'d' }}<br><span>{{ blog.created_at|date:'M'|upper }}</span></p></div>
+                            <p><i class="fa fa-heart-o" aria-hidden="true"></i>32 Bəyənmə</p>
                             <p><i class="fa fa-comment-o" aria-hidden="true"></i>16 Komment</p>
                         </div>
-                        <p>{{ blog.product.description|truncatechars_html:150 }}</p>
-                         {% if blog.product.description|length < 150 %}<br>{% endif %}
+                        <p>{{ blog.description|truncatechars_html:150 }}</p>
+                         {% if blog.description|length < 150 %}<br>{% endif %}
                         <a href="{{ blog.get_absolute_url }}">Ətraflı<i class="fa fa-angle-right" aria-hidden="true"></i></a>
                     </div>
                 </div>

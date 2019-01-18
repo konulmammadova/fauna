@@ -35,18 +35,18 @@
             <div class="row">
                 <div class="col-md-9 col-sm-8 col-xs-12">
                     <div class="wellcome blog-detail ">
-                        <figure><img src="{{ blog.product.get_main_image.title.url }}" alt="Images" width="450"
+                        <figure><img src="{{ blog.get_main_image.title.url }}" alt="Images" width="450"
                                      height="400"></figure>
                         <div class="wellcome-text clearfix">
                             <div class="deat-text clearfix">
                                 <h4><a href="#">{{ blog.title }}</a></h4>
                                 <div class="deat">
-                                    <p>{{ blog.product.created_at|date:'d' }}<br><span>{{ blog.product.created_at|date:'F'|upper }}</span>
+                                    <p>{{ blog.created_at|date:'d' }}<br><span>{{ blog.created_at|date:'F'|upper }}</span>
                                     </p></div>
                                 {#                            <p><i class="fa fa-heart-o" aria-hidden="true"></i>32 Likes</p>#}
                                 <p><i class="fa fa-comment-o" aria-hidden="true"></i>16 Comments</p>
                             </div>
-                            <p style="text-align: justify">{{ blog.product.description }}</p>
+                            <p style="text-align: justify">{{ blog.description }}</p>
                             {# <p>Paw at your fat belly ears back wide eyed present belly, scratch hand when stroked. Rub face on everything sit in box. Love to play with owner's hair tie cats secretly make all the worlds muffins kick up litter dream about hunting birds. </p>#}
                             {# <p>Bathe private parts with tongue then lick owner's face hate dog eat from dog's food but kitty scratches couch bad kitty for going to catch the red dot today going to catch the red dot today have secret plans swat at dog. Human give me attention meow see owner, run in terror yet ears back wide eyed kitty power! cat slap dog in face or hack up furballs. Cats making all the muffins meow loudly just to annoy owners, playing with balls of wool but find something else more interesting, but attack feet hack up furballs. Cats making all the muffins. Leave fur on owners clothes put toy mouse in food bowl run out of litter box at full speed for cats making all the muffins for stare at ceiling.</p>#}
                         </div>

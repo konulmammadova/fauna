@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from .models import Menu, GlobalModel, Slider, Service, Testimony, Appointment, Category, Product, Image, Post
+from .models import Menu, GlobalModel, Slider, Service, Testimony, Appointment, Category, Product, Post, \
+    ProductImage, PostImage
 from django.contrib.admin import SimpleListFilter
 
 
@@ -63,11 +64,14 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ('category', 'name', 'origin', 'gender', 'age', 'price', 'slug', 'created_at')
 
 
-@admin.register(Image)
+@admin.register(ProductImage)
 class ProductImageAdmin(admin.ModelAdmin):
     list_display = ('title', 'product')
 
+@admin.register(PostImage)
+class PosttImageAdmin(admin.ModelAdmin):
+    list_display = ('title', 'post')
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'product', 'slug')
+    list_display = ('title', 'slug')

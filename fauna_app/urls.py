@@ -3,7 +3,7 @@ from django.conf.urls import url
 from django.urls import reverse_lazy
 
 from .views import BaseIndexView, ServiceDetailView, AboutView, ShopView, BlogListView, ProductDetailView, RegisterView, \
-    LoginView, LogoutView, BlogDetailView
+    LoginView, LogoutView, BlogDetailView, ContactView
 
 urlpatterns = [
     url(r'^$', BaseIndexView.as_view(), name="index"),
@@ -17,5 +17,5 @@ urlpatterns = [
     url(r'^product/(?P<slug>[-\w]+)/$', ProductDetailView.as_view(), name="product-detail"),
     url(r'^blog/$', BlogListView.as_view(), name="blog-list"),
     url(r'^blog/(?P<slug>[-\w]+)/$', BlogDetailView.as_view(), name="blog-detail"),
-    url(r'^contact/$', BlogListView.as_view(), name="contact"),
+    url(r'^contact/$', ContactView.as_view(), name="contact"),
 ]

@@ -1,6 +1,7 @@
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.safestring import mark_safe
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
@@ -174,10 +175,10 @@ class Product(models.Model):
         return reverse('product-detail', kwargs={'slug': self.slug})
 
     def get_main_image(self):
-        return self.image_set.first()
+        return self.productimage_set.first()
 
 
-class Image(models.Model):
+class ProductImage(models.Model):
     title = models.ImageField()
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
@@ -201,21 +202,42 @@ class Appointment(models.Model):
 
 
 class Post(models.Model):
-    title = models.CharField(max_length=80, null=True, blank=True)
-    product = models.OneToOneField(Product, null=True, blank=True)
+    title = models.CharField(max_length=80)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE, null=True, blank=True)
+    origin = models.CharField(max_length=350, null=True, blank=True)
+    gender = models.BooleanField(choices=GENDER_CHOICES, default=False)
+    age = models.FloatField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
     slug = models.SlugField(unique=True, null=True, blank=True)
+
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __init__(self, *args, **kwargs):
         super(Post, self).__init__(*args, **kwargs)
         self.title_cache = self.title
 
+    def __str__(self):
+        return '{}'.format(self.title)
+
     def get_absolute_url(self):
         return reverse('blog-detail', kwargs={'slug': self.slug})
-    # class Meta:
-    #     verbose_name = "Post"
-    #     verbose_name_plural = "Postlar"
-    #     ordering = ('-created_at',)
+
+    def get_main_image(self):
+        return self.postimage_set.first()
+
+    class Meta:
+        verbose_name = "Post"
+        verbose_name_plural = "Postlar"
+        ordering = ('-created_at',)
 
 
+class PostImage(models.Model):
+    title = models.ImageField()
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 

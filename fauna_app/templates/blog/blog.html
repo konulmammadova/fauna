@@ -21,24 +21,24 @@
     <div class="container">
         <div class="row">
             {% for blog in blogs %}
-{#                {% if forloop.counter == 1 or forloop.counter == 2 or forloop.counter == 3 or forloop.counter == 4 %}#}
+                {% if forloop.counter == 1 or forloop.counter == 2 or forloop.counter == 3 or forloop.counter == 4 %}
 			<div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="wellcome">
-                    <figure><a href="{{ blog.get_absolute_url }}"><img src="{{ blog.product.get_main_image.title.url }}" alt="Images" style="width:550px; height: 370px;"></a></figure>
+                    <figure><a href="{{ blog.get_absolute_url }}"><img src="{{ blog.get_main_image.title.url }}" alt="Images" style="width:550px; height: 370px;"></a></figure>
                     <div class="wellcome-text">
                         <div class="deat-text clearfix">
-                            <div class="deat"><p>{{ blog.product.created_at|date:'d' }}<br><span>{{ blog.product.created_at|date:'M'|upper }}</span></p></div>
-{#                            <div class="deat"><p>28<br><span>OCT</span></p></div>#}
+                            <div class="deat"><p>{{ blog.created_at|date:'d' }}<br><span>{{ blog.created_at|date:'M'|upper }}</span></p></div>
+                            <div class="deat"><p>28<br><span>OCT</span></p></div>
                             <p><i class="fa fa-comment-o" aria-hidden="true"></i>16 Komment</p>
                         </div>
                         <h4><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a></h4>
-                        <p>{{ blog.product.description|truncatechars_html:150 }}</p>
-                        {% if blog.product.description|length < 150 %}<br>{% endif %}
+                        <p>{{ blog.description|truncatechars_html:150 }}</p>
+                        {% if blog.description|length < 150 %}<br>{% endif %}
                         <a href="{{ blog.get_absolute_url }}">Ətraflı<i class="fa fa-angle-right" aria-hidden="true"></i></a>
                     </div>
                 </div>
 			</div>
-{#                {% endif %}#}
+                {% endif %}
             {% endfor %}
 		</div>
         <div class="blog-arrow">
