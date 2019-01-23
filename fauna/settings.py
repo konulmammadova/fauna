@@ -14,6 +14,7 @@ import os
 from django.utils.translation import ugettext_lazy as _
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
@@ -154,6 +155,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'social_django.middleware.SocialAuthExceptionMiddleware',  # if you want to social login uncomment this
     # 'app.middleware.game_session_middleware.game_check_session', # custom middleware
+    'fauna.middleware.create_bucket_middleware.create_bucket_middleware',
 ]
 
 ROOT_URLCONF = 'fauna.urls'

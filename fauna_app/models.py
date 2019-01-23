@@ -1,4 +1,5 @@
 from ckeditor_uploader.fields import RichTextUploadingField
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
@@ -8,7 +9,9 @@ from mptt.models import MPTTModel
 
 from base_user.models import MyUser
 from fauna_app.options.tools import get_slider_image, get_service_bg_image, get_service_image, get_testimony_image, \
-     GENDER_CHOICES
+    GENDER_CHOICES, basker_token_generator, BASKET_STATUS, ORDER_STATUS
+
+myuser = settings.AUTH_USER_MODEL
 
 
 class GlobalModel(models.Model):
@@ -70,12 +73,12 @@ class Slider(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.title
+
     def get_image(self):
         if self.image:
             return mark_safe("<img style='width:350px' src={} />".format(self.image.url))
-
-    def __str__(self):
-        return self.title
 
 
 class Service(models.Model):
@@ -89,6 +92,9 @@ class Service(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
 
     class Meta:
         verbose_name = "Servis"
@@ -110,9 +116,6 @@ class Service(models.Model):
     def get_absolute_url(self):
         return reverse('service-detail', kwargs={'slug': self.slug})
 
-    def __str__(self):
-        return self.title
-
 
 class Testimony(models.Model):
     image = models.ImageField(upload_to=get_testimony_image, null=True, blank=True)
@@ -123,12 +126,13 @@ class Testimony(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def get_image(self):
-        if self.image:
-            return mark_safe("<img style='width: 100px' src = {} />".format(self.image.url))
 
     def __str__(self):
         return self.name
+
+    def get_image(self):
+        if self.image:
+            return mark_safe("<img style='width: 100px' src = {} />".format(self.image.url))
 
 
 class Category(MPTTModel):
@@ -144,28 +148,32 @@ class Category(MPTTModel):
     def __str__(self):
         return '{}'.format(self.name)
 
+    class Meta:
+        verbose_name = 'Kategoriya'
+        verbose_name_plural = 'Kategoriyalar'
+
 
 class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
-    user = models.ForeignKey(MyUser, on_delete=models.CASCADE, null=True, blank=True)
-    name = models.CharField(max_length=25, null=True, blank=True)
+    user = models.ForeignKey(myuser, on_delete=models.CASCADE, null=True, blank=True)
+    name = models.CharField(max_length=40)
     origin = models.CharField(max_length=350, null=True, blank=True)
-    gender = models.BooleanField(choices=GENDER_CHOICES, default=False)
-    age = models.FloatField(null=True, blank=True)
-    price = models.FloatField(null=True, blank=True)
+    gender = models.BooleanField(choices=GENDER_CHOICES)
+    age = models.PositiveIntegerField(null=True, blank=True)
+    price = models.DecimalField(max_digits=9, decimal_places=2, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
-    slug = models.SlugField(unique=True, null=True, blank=True)
+    slug = models.SlugField(unique=True,null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        # verbose_name = "Post"
-        # verbose_name_plural = "Postlar"
-        ordering = ("-created_at",)
-
     def __str__(self):
         return '{}'.format(self.name)
+
+    class Meta:
+        verbose_name = "Məhsul"
+        verbose_name_plural = "Məhsullar"
+        ordering = ("-created_at",)
 
     def __init__(self, *args, **kwargs):
         super(Product, self).__init__(*args, **kwargs)
@@ -184,6 +192,9 @@ class ProductImage(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.title}'
 
 
 class Appointment(models.Model):
@@ -204,7 +215,7 @@ class Appointment(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=80)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
-    user = models.ForeignKey(MyUser, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(myuser, on_delete=models.CASCADE, null=True, blank=True)
     origin = models.CharField(max_length=350, null=True, blank=True)
     gender = models.BooleanField(choices=GENDER_CHOICES, default=False)
     age = models.FloatField(null=True, blank=True)
@@ -214,12 +225,12 @@ class Post(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return '{}'.format(self.title)
+
     def __init__(self, *args, **kwargs):
         super(Post, self).__init__(*args, **kwargs)
         self.title_cache = self.title
-
-    def __str__(self):
-        return '{}'.format(self.title)
 
     def get_absolute_url(self):
         return reverse('blog-detail', kwargs={'slug': self.slug})
@@ -228,8 +239,8 @@ class Post(models.Model):
         return self.postimage_set.first()
 
     class Meta:
-        verbose_name = "Post"
-        verbose_name_plural = "Postlar"
+        verbose_name = "Blog"
+        verbose_name_plural = "Bloglar"
         ordering = ('-created_at',)
 
 
@@ -240,4 +251,53 @@ class PostImage(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+
+class BasketManager(models.Manager):
+    def new(self, user=None):
+        user_obj = None
+        if user is not None:
+            if user.is_authenticated():
+                user_obj = user
+        return self.model.objects.create(user=user_obj)
+
+
+class Basket(models.Model):
+    token = models.CharField(max_length=40, default=basker_token_generator)
+    name = models.CharField(max_length=255)
+    user = models.ForeignKey(myuser, on_delete=models.CASCADE, null=True, blank=True)
+    status = models.CharField(max_length=10, choices=BASKET_STATUS, default='open')
+
+    objects = BasketManager()
+
+    def __str__(self):
+        return f'{self.id}'
+
+    class Meta:
+        verbose_name = 'Səbət'
+        verbose_name_plural = 'Səbətlər'
+
+
+class Line(models.Model):
+    basket = models.ForeignKey(Basket, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    price = models.DecimalField(max_digits=9, decimal_places=2)
+    quantity = models.PositiveIntegerField(default=1)
+
+
+class ShippingDetails(models.Model):
+    name = models.CharField(max_length=255)
+    surname = models.CharField(max_length=255)
+    phone = models.CharField(max_length=25)
+    email = models.EmailField(null=True, blank=True)
+    address = models.CharField(max_length=255)
+    note = models.TextField(null=True, blank=True)
+
+
+class Order(models.Model):
+    basket = models.ForeignKey(Basket, on_delete=models.CASCADE)
+    user = models.ForeignKey(myuser, on_delete=models.CASCADE, null=True, blank=True)
+    email = models.EmailField(null=True, blank=True)
+    phone = models.CharField(max_length=25, null=True, blank=True)
+    ship_detail = models.ForeignKey(ShippingDetails, on_delete=models.CASCADE)
+    status = models.CharField(max_length=10, choices=ORDER_STATUS, default='pending')
 

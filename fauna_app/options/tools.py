@@ -1,3 +1,4 @@
+import uuid
 from time import time
 from unidecode import unidecode
 
@@ -24,6 +25,20 @@ GENDER_CHOICES = {
     (False, 'Female'),
 }
 
+BASKET_STATUS = {
+    ('open', 'currently active'),
+    ('merged', 'superceded by another basket'),
+    ('saved', 'for items to be purchased later'),
+    ('frozen', 'the basket cannot be modified'),
+    ('submitted', 'has been ordered at the checkout'),
+}
+
+ORDER_STATUS = {
+    ('pending', 'Pending' ),
+    ('processed', 'Being processed'),
+    ('cancel', 'Cancelled'),
+}
+
 
 # Custom slugify function
 def slugify(title):
@@ -45,6 +60,9 @@ def get_service_image(instance, filename):
 
 def get_testimony_image(instance, filename):
     return "testimonies/%s_%s" % (str(time()).replace('.', '_'), filename.replace(' ', '_'))
+
+def basker_token_generator():
+    return str(uuid.uuid4())
 
 # def get_doctor_image(instance, filename):
 #     return "doctor/%s_%s" % (str(time()).replace('.', '_'), filename.replace(' ', '_'))

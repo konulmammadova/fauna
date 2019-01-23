@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .models import Menu, GlobalModel, Slider, Service, Testimony, Appointment, Category, Product, Post, \
-    ProductImage, PostImage
+    ProductImage, PostImage, Basket
 from django.contrib.admin import SimpleListFilter
 
 
@@ -59,19 +59,30 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'parent')
 
 
+class ProductImageInline(admin.TabularInline):
+    model = ProductImage
+
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('category', 'name', 'origin', 'gender', 'age', 'price', 'slug', 'created_at')
+    inlines = [
+        ProductImageInline,
+    ]
 
 
-@admin.register(ProductImage)
-class ProductImageAdmin(admin.ModelAdmin):
-    list_display = ('title', 'product')
+class PostImageInline(admin.TabularInline):
+    model = PostImage
 
-@admin.register(PostImage)
-class PosttImageAdmin(admin.ModelAdmin):
-    list_display = ('title', 'post')
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
     list_display = ('title', 'slug')
+    inlines = [
+        PostImageInline,
+    ]
+
+
+@admin.register(Basket)
+class BasketAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'user', 'status')

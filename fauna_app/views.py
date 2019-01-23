@@ -4,6 +4,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
+from django.utils import timezone
 from django.views import View
 from django.views.generic import TemplateView, DetailView, CreateView, FormView, RedirectView, ListView
 
@@ -84,13 +85,23 @@ class ProductDetailView(DetailView):
 
 class BlogListView(ListView):
     model = Post
-    paginate_by = 6
+    paginate_by = 2
     template_name = 'blog/blog.html'
     context_object_name = 'blogs'
+    paginate_orphans = 1
 
     def get_context_data(self, **kwargs):
         context = super(BlogListView, self).get_context_data(**kwargs)
         context.update({**BaseDataView.get_context_data(BaseDataView)})
+
+        max_index = len(context['paginator'].page_range)
+        start_index = int(context['page_obj'].number) - 1 if context['page_obj'].number else 0
+        end_index = start_index + 3 if start_index < max_index - 2 else max_index
+        # print('max_index: ', max_index)
+        # print('start_index: ', start_index)
+        # print('end_index: ', end_index)
+        context['page_index'] = context['paginator'].page_range[start_index:end_index]
+
         return context
 
 
@@ -132,7 +143,7 @@ class RegisterView(FormView):
 class LoginView(FormView):
     form_class = LoginForm
     template_name = 'account/login.html'
-    success_url = reverse_lazy('blog')
+    success_url = reverse_lazy('blog-list')
 
     def form_valid(self, form):
         username = form.cleaned_data.get('username')
@@ -159,3 +170,5 @@ class LogoutView(RedirectView):
             logout(self.request)
         return super(LogoutView, self).get_redirect_url(*args, **kwargs)
 
+
+# class BasketAddView():

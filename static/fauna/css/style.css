@@ -2794,7 +2794,7 @@ transition: all 500ms ease 0s;
 .blog-arrow ul {
   display: block;
   margin: 27px auto 0;
-  width: 190px;
+  width: 300px;
 }
 .blog-arrow ul li{float: left;}
 .blog-arrow ul li a {
