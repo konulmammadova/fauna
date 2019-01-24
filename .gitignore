@@ -5,3 +5,4 @@ media/
 db.sqlite3
 *.pyc
 localhost/
+static/* linguist-vendored
